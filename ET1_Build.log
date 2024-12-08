@@ -1,0 +1,63 @@
+Executing task: C:\Users\shaff\.platformio\penv\Scripts\platformio.exe run 
+Processing esp32dev (board: esp32dev; platform: espressif32; framework: arduino)       
+----------------------------------------------------------------------------------
+Compiling .pio\build\esp32dev\libd0b\SensESP\sensesp\sensors\digital_output.cpp.o
+In file included from .pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_input.h:4,
+                 from .pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_input.cpp:1:
+.pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_reader.h:27:30: warning: 'ADC_ATTEN_DB_11' is deprecated [-Wdeprecated-declarations]
+   adc_atten_t attenuation_ = ADC_ATTEN_DB_11;
+                              ^~~~~~~~~~~~~~~
+In file included from C:/Users/shaff/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/driver/include/driver/adc.h:14,
+                 from C:/Users/shaff/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_adc_cal/include/esp_adc_cal.h:12,
+                 from .pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_reader.h:7,
+                 from .pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_input.h:4,
+                 from .pio/libdeps/esp32dev/SensESP/src/sensesp/sensors/analog_input.cpp:1:
+C:/Users/shaff/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/hal/include/hal/adc_types.h:54:5: note: declared here
+     ADC_ATTEN_DB_11 __attribute__((deprecated)) = ADC_ATTEN_DB_12,  ///<This is deprecated, it behaves the same as `ADC_ATTEN_DB_12`
+     ^~~~~~~~~~~~~~~
+*** [.pio\build\esp32dev\firmware.elf] Implicit dependency `C:\Users\shaff\.platformio\platforms\espressif32\builder\2' not found, needed by target `.pio\build\esp32dev\firmware.elf'.
+======= [FAILED] Took 760.92 seconds ====
+
+
+In: C:\Users\shaff\_MyCode\SenseESP_Project\Tutorial-BMP280\.pio\libdeps\esp32dev\SensESP\src\sensesp\sensors\analog_reader.h
+Changed:
+class ESP32AnalogReader : public BaseAnalogReader {
+ private:
+  int pin_;
+  adc_atten_t attenuation_ = ADC_ATTEN_DB_12;
+   // This should work with ESP32 and newer variants, ADCs are different
+  //ET1 Build failed with ADC_ATTEN_DB_11; depreciated; used ADC_ATTEN_DB_12 as PIO Debug suggests
+  adc_bits_width_t  bit_width_ = (adc_bits_width_t)  ADC_WIDTH_BIT_DEFAULT;
+  // maximum voltage readout for 3.3V VDDA when attenuation_ is set to 11 dB
+  const float kVmax_ = 3300;
+  int8_t adc_channel_;
+  esp_adc_cal_characteristics_t adc_characteristics_;
+  const int kVref_ = 1100;  // voltage reference, in mV
+  
+
+
+Executing task: C:\Users\shaff\.platformio\penv\Scripts\platformio.exe run 
+
+Processing esp32dev (board: esp32dev; platform: espressif32; framework: arduino)
+--------------------------------------------------------------------------------------
+Archiving .pio\build\esp32dev\libd0b\libSensESP.a
+*** [.pio\build\esp32dev\firmware.elf] Implicit dependency `C:\Users\shaff\.platformio\platforms\espressif32\builder\2' not found, needed by target `.pio\build\esp32dev\firmware.elf'.
+============================= [FAILED] Took 91.89 seconds ============
+No suggestions; believe this is syntax failure that was caused by 
+build_flags = 
+   -D LED_BUILTIN = 2
+In C:\Users\shaff\_MyCode\SenseESP_Project\Tutorial-BMP280\platformio.ini
+Changed:  
+[env:esp32dev]
+extends = espressif32_base
+board = esp32dev
+; Verify that this is the correct pin number for your board!
+; ET1 build_flags = -D LED_BUILTIN = 2 syntax error; removed spaces
+build_flags = 
+   -D LED_BUILTIN=2
+   
+*  Executing task: C:\Users\shaff\.platformio\penv\Scripts\platformio.exe run 
+Processing esp32dev (board: esp32dev; platform: espressif32; framework: arduino)
+--------------------------------------------------------------------------------------
+Successfully created esp32 image.
+
