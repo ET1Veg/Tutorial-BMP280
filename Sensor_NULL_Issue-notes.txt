@@ -1,0 +1,32 @@
+Getting [NULL] fields in SerialMonitor and these are passed to SignalK using Tutorial-BMP280 code "out of the box"
+
+Believe the problem may be in: main.cpp in this declaration
+	// (Do whatever is required to "start" your project's sensor here)
+	// Initialize the BMP280 using the default address
+  bmp280.begin();
+
+-------------------------------------------------------------------
+bool Adafruit_BMP280::begin(uint8_t addr = (uint8_t)119U, uint8_t chipid = (uint8_t)88U)
+Initialises the sensor.
+
+Parameters:
+addr – The I2C address to use (default = 0x77)
+chipid – The expected chip ID (used to validate connection).
+
+Returns:
+True if the init was successful, otherwise false.
+--------------------------------------------------------------------
+
+changed to 
+  bmp280.begin(0x76,0x60);
+
+
+I had a heck of a time figuring out that not only must the address be specified but the chip ID also
+I realized the chip i was using was not at the default address (0x77) due to modification in a previous installation
+when i passed the actual address (0x76) i noticed the serial o/p was passing 0+237.15 instead of [NULL] to SignalK
+took another 4-hours to realize that an ID must also be passed with the address
+still more time to realize i had a BME280 vs a BMP280 in spite of board stencil and ID needed to be 0x60 vs 0x58 (see link below)
+https://github.com/ciastkolog/BMP280_STM32/issues/1
+https://forum.arduino.cc/t/solved-i2c-bme280-bmp280-works-with-bmp-begin-0x76-0x58/689445
+
+I am currently using DevBoard pins 20 and 17 for i2c bus (p20=D21=SDA, p17=D22=SCL). I will experiment with reallocation of i2c bus later.
