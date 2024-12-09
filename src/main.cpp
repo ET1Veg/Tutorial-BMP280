@@ -53,7 +53,9 @@ void setup() {
 
   // (Do whatever is required to "start" your project's sensor here)
   // Initialize the BMP280 using the default address
-  bmp280.begin();
+  // ET1 default bmp280.begin() passes (address,ID)=(0x77,0x58)
+  // ET1 Using a BME280 modified to 0x76 for prior usecase, chip ID 0x60=BME; NOT 0x58=BMP 
+  bmp280.begin(0x76,0x60);
 
   // Read the sensor every 2 seconds
   unsigned int read_interval = 2000;
